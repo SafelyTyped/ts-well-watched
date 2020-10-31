@@ -1,0 +1,19 @@
+{
+  "githubOrg": "SafelyTyped",
+  "repoName": "ts-well-watched",
+  "packageName": "@safelytyped/well-watched",
+  "copyrightHolder": "Ganbaro Digital Ltd",
+  "copyrightWebsite": "https://ganbarodigital.com",
+  "packageContactEmail": "safelytyped@ganbarodigital.com",
+  "authorName": "Stuart Herbert",
+  "authorEmail": "stuherbert@ganbarodigital.com",
+  "authorWebsite": "https://ganbarodigital.com",
+  "license": "BSD-3-Clause",
+  "copyrightYear": 2020,
+  "packageDescription": "A safe type for working with dynamic watch lists.",
+  "npmLicense": "BSD-3-Clause",
+  "branchingModel": "gitflow",
+  "packageIsScoped": true,
+  "autoGitInit": true,
+  "packageAccess": "public"
+}
