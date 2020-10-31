@@ -26,12 +26,12 @@
   ],
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@safelytyped/core-types": "^0.1.0"
+    "@safelytyped/core-types": "^0.2.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.8",
     "@types/mocha": "^7.0.1",
-    "@types/node": "^13.13.12",
+    "@types/node": "^14.0",
     "chai": "^4.2.0",
     "chai-bytes": "^0.1.2",
     "chai-string": "^1.5.0",

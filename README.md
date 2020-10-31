@@ -2,7 +2,9 @@
 
 ## Introduction
 
-ADD YOUR INTRODUCTION HERE!!
+_Well-Watched_ is a safe type for working with dynamic watch lists.
+
+It's inspired by the way Vuex registers and manages its list of subscribers.
 
 ## Quick Start
 
