@@ -33,7 +33,6 @@
 //
 import {
     type AppErrorOr,
-    type DataPath,
     DEFAULT_DATA_PATH,
     getClassNames,
     UnsupportedTypeError,
@@ -60,8 +59,10 @@ import { WatchList } from "./WatchList";
  * - an {@link AppError} explaining why validation failed
  */
 export function validateWatchList<T>(
-    path: DataPath,
     input: unknown,
+    {
+        path = DEFAULT_DATA_PATH
+    }: Partial<TypeValidatorOptions> = {}
 ): AppErrorOr<WatchList<T>>
 {
     return validate(input)

@@ -36,14 +36,14 @@ import { describe } from "mocha";
 import { expect } from "chai";
 import { ValidWatchLists, InvalidWatchLists } from "../_fixtures";
 import { validateWatchList } from "@safelytyped/well-watched";
-import { AppError, DEFAULT_DATA_PATH } from "@safelytyped/core-types";
+import { AppError } from "@safelytyped/core-types";
 import { WatchList } from "@safelytyped/well-watched";
 
 describe("validateWatchList()", () => {
     describe("accepts valid WatchListData", () => {
         ValidWatchLists.forEach((inputValue) => {
             it("accepts example " + JSON.stringify(inputValue), () => {
-                const actualValue = validateWatchList(DEFAULT_DATA_PATH, inputValue);
+                const actualValue = validateWatchList(inputValue);
                 expect(actualValue).instanceOf(WatchList);
             });
         });
@@ -52,7 +52,7 @@ describe("validateWatchList()", () => {
     describe("rejects invalid WatchListData", () => {
         InvalidWatchLists.forEach((inputValue) => {
             it("rejects example " + JSON.stringify(inputValue), () => {
-                const actualValue = validateWatchList(DEFAULT_DATA_PATH, inputValue);
+                const actualValue = validateWatchList(inputValue);
                 expect(actualValue).instanceOf(AppError);
             });
         });

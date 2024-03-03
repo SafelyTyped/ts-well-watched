@@ -35,18 +35,17 @@ import { type DataPath, DEFAULT_DATA_PATH, mustBe, type OnError, THROW_THE_ERROR
 import { validateWatchList } from "./validateWatchList";
 import { WatchList } from "./WatchList";
 
-
 export function mustBeWatchList<T>(
     input: unknown,
     {
         onError = THROW_THE_ERROR,
-        dataPath = DEFAULT_DATA_PATH
+        path = DEFAULT_DATA_PATH
     }: {
         onError?: OnError,
-        dataPath?: DataPath,
+        path?: DataPath,
     } = {}
 ): WatchList<T> {
     return mustBe(input, { onError })
-        .next((x) => validateWatchList<T>(dataPath, input))
+        .next((x) => validateWatchList<T>(input, { path }))
         .value();
 }

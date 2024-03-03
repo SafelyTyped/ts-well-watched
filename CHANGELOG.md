@@ -21,6 +21,11 @@ For each release, changes are grouped under these headings:
 
 The following changes have been completed, and will be included in the next tagged release.
 
+### Backwards-Compatibility Breaks
+
+* `validateWatchList()` now takes the data path as an optional parameter
+  - this matches the latest TypeValidator approach in @safelytyped/core-types
+
 ### Fixes
 
 * Added simultaneous support for CommonJS and ESM runtime environments.

@@ -31,7 +31,7 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { AppError, type DataPath, DEFAULT_DATA_PATH } from "@safelytyped/core-types";
+import { IS_TYPE_DEFAULT_OPTIONS, isType } from "@safelytyped/core-types";
 
 import { validateWatchList } from "./validateWatchList";
 import { WatchList } from "./WatchList";
@@ -45,20 +45,13 @@ import { WatchList } from "./WatchList";
  *
  * @param input
  * the value to validate
- * @param dataPath
- * where are you in the data structure that you are validating?
  *
  * @template T
  * the data type that can be added to the WatchList
  */
 export function isWatchList<T>(
     input: unknown,
-    {
-        dataPath = DEFAULT_DATA_PATH
-    }: {
-        dataPath?: DataPath
-    } = {}
 ): input is WatchList<T>
 {
-    return !(validateWatchList<T>(dataPath, input) instanceof AppError);
+    return isType(validateWatchList, input, IS_TYPE_DEFAULT_OPTIONS);
 }
