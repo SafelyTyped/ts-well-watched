@@ -21,6 +21,10 @@ For each release, changes are grouped under these headings:
 
 The following changes have been completed, and will be included in the next tagged release.
 
+## v0.2.0
+
+Released Sunday, 3rd March 2024.
+
 ### Backwards-Compatibility Breaks
 
 * `validateWatchList()` now takes the data path as an optional parameter
