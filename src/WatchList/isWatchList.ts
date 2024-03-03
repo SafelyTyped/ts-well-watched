@@ -31,28 +31,34 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
+import { AppError, type DataPath, DEFAULT_DATA_PATH } from "@safelytyped/core-types";
 
-import { describe } from "mocha";
-import { expect } from "chai";
-import { ValidWatchLists, InvalidWatchLists } from "../_fixtures";
-import { isWatchList } from "./isWatchList";
+import { validateWatchList } from "./validateWatchList";
+import { WatchList } from "./WatchList";
 
-describe("isWatchList()", () => {
-    describe("accepts valid WatchListData", () => {
-        ValidWatchLists.forEach((inputValue) => {
-            it("accepts example " + JSON.stringify(inputValue), () => {
-                const actualValue = isWatchList(inputValue);
-                expect(actualValue).equal(true);
-            });
-        });
-    });
-
-    describe("rejects invalid WatchListData", () => {
-        InvalidWatchLists.forEach((inputValue) => {
-            it("rejects example " + JSON.stringify(inputValue), () => {
-                const actualValue = isWatchList(inputValue);
-                expect(actualValue).to.equal(false);
-            });
-        });
-    });
-});
+/**
+ * `isWatchList<T>()` is a {@link TypeGuard}. Use it to prove to the
+ * compiler that your `input` is a valid {@link WatchList}.
+ *
+ * NOTE: we currently do not prove that the {@link WatchList} contains
+ * type `T`. We just don't have a way to achieve that yet.
+ *
+ * @param input
+ * the value to validate
+ * @param dataPath
+ * where are you in the data structure that you are validating?
+ *
+ * @template T
+ * the data type that can be added to the WatchList
+ */
+export function isWatchList<T>(
+    input: unknown,
+    {
+        dataPath = DEFAULT_DATA_PATH
+    }: {
+        dataPath?: DataPath
+    } = {}
+): input is WatchList<T>
+{
+    return !(validateWatchList<T>(dataPath, input) instanceof AppError);
+}

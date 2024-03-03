@@ -35,7 +35,7 @@
 import { HashMap } from "@safelytyped/core-types";
 import { expect } from "chai";
 import { describe } from "mocha";
-import { WatchList } from "./WatchList";
+import { WatchList } from "@safelytyped/well-watched";
 
 describe("WatchList", () => {
     describe(".constructor()", () => {

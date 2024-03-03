@@ -31,22 +31,28 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { DataPath, DEFAULT_DATA_PATH, mustBe, OnError, THROW_THE_ERROR } from "@safelytyped/core-types";
-import { validateWatchList } from "./validateWatchList";
-import { WatchList } from "./WatchList";
 
+import { describe } from "mocha";
+import { expect } from "chai";
+import { ValidWatchLists, InvalidWatchLists } from "../_fixtures";
+import { mustBeWatchList } from "@safelytyped/well-watched";
+import { AppError } from "@safelytyped/core-types";
 
-export function mustBeWatchList<T>(
-    input: unknown,
-    {
-        onError = THROW_THE_ERROR,
-        dataPath = DEFAULT_DATA_PATH
-    }: {
-        onError?: OnError,
-        dataPath?: DataPath,
-    } = {}
-): WatchList<T> {
-    return mustBe(input, { onError })
-        .next((x) => validateWatchList<T>(dataPath, input))
-        .value();
-}
+describe("mustBeWatchList()", () => {
+    describe("accepts valid WatchList", () => {
+        ValidWatchLists.forEach((inputValue) => {
+            it("accepts example " + JSON.stringify(inputValue), () => {
+                const actualValue = mustBeWatchList(inputValue);
+                expect(actualValue).to.equal(inputValue);
+            });
+        });
+    });
+
+    describe("rejects valid WatchList", () => {
+        InvalidWatchLists.forEach((inputValue) => {
+            it("rejects example " + JSON.stringify(inputValue), () => {
+                expect(() => mustBeWatchList(inputValue)).to.throw(AppError);
+            });
+        });
+    });
+});

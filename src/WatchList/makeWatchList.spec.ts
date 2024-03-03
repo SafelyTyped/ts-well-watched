@@ -34,8 +34,8 @@
 
 import { expect } from "chai";
 import { describe } from "mocha";
-import { makeWatchList } from "./makeWatchList";
-import { WatchList } from "./WatchList";
+import { makeWatchList } from "@safelytyped/well-watched";
+import { WatchList } from "@safelytyped/well-watched";
 
 describe("makeWatchList()", () => {
     it("returns a WatchList", () => {

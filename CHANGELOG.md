@@ -21,6 +21,18 @@ For each release, changes are grouped under these headings:
 
 The following changes have been completed, and will be included in the next tagged release.
 
+### Fixes
+
+* Added simultaneous support for CommonJS and ESM runtime environments.
+
+### Dependencies
+
+* Upgraded to Typescript v5.2
+
+### Tools
+
+* Replaced tslint with eslint
+
 ## v0.1.1
 
 Released Saturday, 5th June 2021.
