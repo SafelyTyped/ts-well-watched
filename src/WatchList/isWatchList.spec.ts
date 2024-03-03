@@ -35,23 +35,23 @@
 import { describe } from "mocha";
 import { expect } from "chai";
 import { ValidWatchLists, InvalidWatchLists } from "../_fixtures";
-import { mustBeWatchList } from "./mustBeWatchList";
-import { AppError } from "@safelytyped/core-types";
+import { isWatchList } from "@safelytyped/well-watched";
 
-describe("mustBeWatchList()", () => {
-    describe("accepts valid WatchList", () => {
+describe("isWatchList()", () => {
+    describe("accepts valid WatchListData", () => {
         ValidWatchLists.forEach((inputValue) => {
             it("accepts example " + JSON.stringify(inputValue), () => {
-                const actualValue = mustBeWatchList(inputValue);
-                expect(actualValue).to.equal(inputValue);
+                const actualValue = isWatchList(inputValue);
+                expect(actualValue).equal(true);
             });
         });
     });
 
-    describe("rejects valid WatchList", () => {
+    describe("rejects invalid WatchListData", () => {
         InvalidWatchLists.forEach((inputValue) => {
             it("rejects example " + JSON.stringify(inputValue), () => {
-                expect(() => mustBeWatchList(inputValue)).to.throw(AppError);
+                const actualValue = isWatchList(inputValue);
+                expect(actualValue).to.equal(false);
             });
         });
     });

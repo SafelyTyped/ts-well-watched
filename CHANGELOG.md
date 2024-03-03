@@ -21,6 +21,27 @@ For each release, changes are grouped under these headings:
 
 The following changes have been completed, and will be included in the next tagged release.
 
+## v0.2.0
+
+Released Sunday, 3rd March 2024.
+
+### Backwards-Compatibility Breaks
+
+* `validateWatchList()` now takes the data path as an optional parameter
+  - this matches the latest TypeValidator approach in @safelytyped/core-types
+
+### Fixes
+
+* Added simultaneous support for CommonJS and ESM runtime environments.
+
+### Dependencies
+
+* Upgraded to Typescript v5.2
+
+### Tools
+
+* Replaced tslint with eslint
+
 ## v0.1.1
 
 Released Saturday, 5th June 2021.

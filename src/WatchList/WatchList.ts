@@ -31,9 +31,9 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { HashMap, NonEmptyArray } from "@safelytyped/core-types";
+import { HashMap, type NonEmptyArray } from "@safelytyped/core-types";
 
-import { WatchListUnsubscriber } from "./WatchListUnsubscriber";
+import type { WatchListUnsubscriber } from "./WatchListUnsubscriber";
 
 /**
  * `WatchList` manages a list of topics and the items that are
@@ -93,7 +93,7 @@ export class WatchList<T>
         // make it easy to unsubscribe in the future
         return () => {
             unsubs.forEach((unsub) => unsub());
-        }
+        };
     }
 
     /**

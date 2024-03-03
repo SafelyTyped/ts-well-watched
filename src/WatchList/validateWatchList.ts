@@ -32,12 +32,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 import {
-    AppErrorOr,
-    DataPath,
+    type AppErrorOr,
+    DEFAULT_DATA_PATH,
     getClassNames,
     UnsupportedTypeError,
     validate,
     validateObject,
+    type TypeValidatorOptions,
 } from "@safelytyped/core-types";
 
 import { WatchList } from "./WatchList";
@@ -58,13 +59,15 @@ import { WatchList } from "./WatchList";
  * - an {@link AppError} explaining why validation failed
  */
 export function validateWatchList<T>(
-    path: DataPath,
     input: unknown,
+    {
+        path = DEFAULT_DATA_PATH
+    }: Partial<TypeValidatorOptions> = {}
 ): AppErrorOr<WatchList<T>>
 {
     return validate(input)
-        .next((x) => validateObject(path, x))
-        .next((x) => validateIsWatchList<T>(path, x))
+        .next((x) => validateObject(x, { path }))
+        .next((x) => validateIsWatchList<T>(x, { path }))
         .value();
 }
 
@@ -81,7 +84,12 @@ export function validateWatchList<T>(
  * - `input` (typecast to a `WatchList`) if validation succeeds, or
  * - an {@link AppError} explaining why validation failed
  */
-function validateIsWatchList<T>(path: DataPath, input: object): AppErrorOr<WatchList<T>>
+function validateIsWatchList<T>(
+    input: object,
+    {
+        path = DEFAULT_DATA_PATH
+    }: Partial<TypeValidatorOptions> = {}
+): AppErrorOr<WatchList<T>>
 {
     // is it a WatchList at all?
     if (!(input instanceof WatchList)) {

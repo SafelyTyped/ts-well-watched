@@ -31,62 +31,21 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import {
-    applyFunctionalOptions,
-    FunctionalOption,
-    HashMap,
-    OnError,
-    OnErrorOptions,
-    THROW_THE_ERROR,
-} from "@safelytyped/core-types";
-
-import { DEFAULT_WATCHLIST_FN_OPTS } from "./defaults/DEFAULT_WATCHLIST_FN_OPTS";
+import { type DataPath, DEFAULT_DATA_PATH, mustBe, type OnError, THROW_THE_ERROR } from "@safelytyped/core-types";
+import { validateWatchList } from "./validateWatchList";
 import { WatchList } from "./WatchList";
 
-/**
- * `makeWatchList()` is a smart constructor. It creates a new
- * {@link WatchList}, seeds it with an (optional) initial list of
- * topics and watchers, and then applies any user-defined functional
- * options that you provide.
- *
- * @param input
- * the initial list of topics and watchers. Use {@link DEFAULT_WATCHLIST_SEED}
- * if you don't have any topics and watchers to begin with.
- * @param onError
- * We will call your `onError` handler if something goes wrong.
- * @param defaultFnOpts
- * If you don't pass in any `fnOpts` of your own, we will run these
- * functional options against the newly-built watchlist.
- * @param fnOpts
- * A list of functional options that you want to us to run against the
- * newly-built watchlist.
- *
- * @returns
- * The newly-built {@link WatchList}.
- *
- * @template T
- * the data type that can watch topics in this watchlist
- */
-export function makeWatchList<T>(
-    input: HashMap<T[]>,
+export function mustBeWatchList<T>(
+    input: unknown,
     {
         onError = THROW_THE_ERROR,
-        defaultFnOpts = DEFAULT_WATCHLIST_FN_OPTS,
+        path = DEFAULT_DATA_PATH
     }: {
         onError?: OnError,
-        defaultFnOpts?: FunctionalOption<WatchList<T>, OnErrorOptions>[]
-    } = {},
-    ...fnOpts: FunctionalOption<WatchList<T>, OnErrorOptions>[]
+        path?: DataPath,
+    } = {}
 ): WatchList<T> {
-    // do we need to apply the default functional options?
-    if (fnOpts.length === 0) {
-        fnOpts = defaultFnOpts;
-    }
-
-    // build it, then let the functional opts do their thing
-    return applyFunctionalOptions(
-        new WatchList(input),
-        {onError},
-        ...fnOpts
-    );
+    return mustBe(input, { onError })
+        .next((x) => validateWatchList<T>(input, { path }))
+        .value();
 }

@@ -31,34 +31,62 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { AppError, DataPath, DEFAULT_DATA_PATH } from "@safelytyped/core-types";
+import {
+    applyFunctionalOptions,
+    type FunctionalOption,
+    HashMap,
+    type OnError,
+    type OnErrorOptions,
+    THROW_THE_ERROR,
+} from "@safelytyped/core-types";
 
-import { validateWatchList } from "./validateWatchList";
+import { DEFAULT_WATCHLIST_FN_OPTS } from "./defaults/DEFAULT_WATCHLIST_FN_OPTS";
 import { WatchList } from "./WatchList";
 
 /**
- * `isWatchList<T>()` is a {@link TypeGuard}. Use it to prove to the
- * compiler that your `input` is a valid {@link WatchList}.
- *
- * NOTE: we currently do not prove that the {@link WatchList} contains
- * type `T`. We just don't have a way to achieve that yet.
+ * `makeWatchList()` is a smart constructor. It creates a new
+ * {@link WatchList}, seeds it with an (optional) initial list of
+ * topics and watchers, and then applies any user-defined functional
+ * options that you provide.
  *
  * @param input
- * the value to validate
- * @param dataPath
- * where are you in the data structure that you are validating?
+ * the initial list of topics and watchers. Use {@link DEFAULT_WATCHLIST_SEED}
+ * if you don't have any topics and watchers to begin with.
+ * @param onError
+ * We will call your `onError` handler if something goes wrong.
+ * @param defaultFnOpts
+ * If you don't pass in any `fnOpts` of your own, we will run these
+ * functional options against the newly-built watchlist.
+ * @param fnOpts
+ * A list of functional options that you want to us to run against the
+ * newly-built watchlist.
+ *
+ * @returns
+ * The newly-built {@link WatchList}.
  *
  * @template T
- * the data type that can be added to the WatchList
+ * the data type that can watch topics in this watchlist
  */
-export function isWatchList<T>(
-    input: unknown,
+export function makeWatchList<T>(
+    input: HashMap<T[]>,
     {
-        dataPath = DEFAULT_DATA_PATH
+        onError = THROW_THE_ERROR,
+        defaultFnOpts = DEFAULT_WATCHLIST_FN_OPTS,
     }: {
-        dataPath?: DataPath
-    } = {}
-): input is WatchList<T>
-{
-    return !(validateWatchList<T>(dataPath, input) instanceof AppError);
+        onError?: OnError,
+        defaultFnOpts?: FunctionalOption<WatchList<T>, OnErrorOptions>[]
+    } = {},
+    ...fnOpts: FunctionalOption<WatchList<T>, OnErrorOptions>[]
+): WatchList<T> {
+    // do we need to apply the default functional options?
+    if (fnOpts.length === 0) {
+        fnOpts = defaultFnOpts;
+    }
+
+    // build it, then let the functional opts do their thing
+    return applyFunctionalOptions(
+        new WatchList(input),
+        {onError},
+        ...fnOpts
+    );
 }

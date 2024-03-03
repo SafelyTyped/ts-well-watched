@@ -31,30 +31,27 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
+import { IS_TYPE_DEFAULT_OPTIONS, isType } from "@safelytyped/core-types";
 
-import { describe } from "mocha";
-import { expect } from "chai";
-import { ValidWatchLists, InvalidWatchLists } from "../_fixtures";
 import { validateWatchList } from "./validateWatchList";
-import { AppError, DEFAULT_DATA_PATH } from "@safelytyped/core-types";
 import { WatchList } from "./WatchList";
 
-describe("validateWatchList()", () => {
-    describe("accepts valid WatchListData", () => {
-        ValidWatchLists.forEach((inputValue) => {
-            it("accepts example " + JSON.stringify(inputValue), () => {
-                const actualValue = validateWatchList(DEFAULT_DATA_PATH, inputValue);
-                expect(actualValue).instanceOf(WatchList);
-            });
-        });
-    });
-
-    describe("rejects invalid WatchListData", () => {
-        InvalidWatchLists.forEach((inputValue) => {
-            it("rejects example " + JSON.stringify(inputValue), () => {
-                const actualValue = validateWatchList(DEFAULT_DATA_PATH, inputValue);
-                expect(actualValue).instanceOf(AppError);
-            });
-        });
-    });
-});
+/**
+ * `isWatchList<T>()` is a {@link TypeGuard}. Use it to prove to the
+ * compiler that your `input` is a valid {@link WatchList}.
+ *
+ * NOTE: we currently do not prove that the {@link WatchList} contains
+ * type `T`. We just don't have a way to achieve that yet.
+ *
+ * @param input
+ * the value to validate
+ *
+ * @template T
+ * the data type that can be added to the WatchList
+ */
+export function isWatchList<T>(
+    input: unknown,
+): input is WatchList<T>
+{
+    return isType(validateWatchList, input, IS_TYPE_DEFAULT_OPTIONS);
+}
